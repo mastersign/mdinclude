@@ -117,21 +117,21 @@ var transformFile = function (filePath) {
     return transformText(text, referencePath);
 };
 
-var processIncludes = function (path, text) {
+var processIncludes = function (fileOrReferencePath, text) {
     'use strict';
     
-    if (path) {
-        if (typeof(path) === 'string') {
+    if (fileOrReferencePath) {
+        if (typeof(fileOrReferencePath) === 'string') {
             if (text) {
                 if (typeof(text) === 'string') {
                     // processIncludes(referencePath, text) -> returns the processed text
-                    return transformText(text, path);
+                    return transformText(text, fileOrReferencePath);
                 } else {
                     throw 'Invalid second argument';
                 }
             } else {
                 // processIncludes(filePath) -> returns the processed content of the file
-                return transformFile(path);
+                return transformFile(fileOrReferencePath);
             }
         } else {
             throw 'Invalid first argument.';

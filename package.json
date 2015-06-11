@@ -1,6 +1,6 @@
 {
   "name": "mdinclude",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Includes referenced files into Markdown files.",
   "readme": "README.md",
   "repository": {
