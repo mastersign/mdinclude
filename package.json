@@ -12,7 +12,6 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "tape ./tests/*.js | tap-spec"
   },
   "keywords": [
     "markdown",
