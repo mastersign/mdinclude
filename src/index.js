@@ -1,9 +1,10 @@
 /* global require, module, Buffer */
 
-var through = require('through2');
 var _ = require('lodash');
+var os = require('os');
 var path = require('path');
 var fs = require('fs');
+var textTransformation = require('gulp-text-simple');
 var csv = require('./csv');
 
 var readFile = function (filePath, pathCache) {
@@ -25,6 +26,9 @@ var csvTable = function(csvText) {
     var row;
     var i;
 
+    if (_.startsWith(csvText, '<!--')) {
+        return csvText;
+    }
     data = csv(csvText);
 
     // cleanup data: ignore empty lines, ignore # comments
@@ -50,14 +54,14 @@ var csvTable = function(csvText) {
             v = escapeCellValue(rowData[i]);
             r += ' ' + v + ' |';
         }
-        r += '\n';
+        r += os.EOL;
         if (headline) {
             r += '|';
             for (i = 0; i < rowData.length; i++) {
                 v = escapeCellValue(rowData[i]);
                 r += (new Array(v.length + 3).join('-')) + '|';
             }
-            r += '\n';
+            r += os.EOL;
         }
         return r;
     };
@@ -100,63 +104,15 @@ var transformText = function (text, referencePath, pathCache) {
     return text;
 };
 
-var transformBuffer = function (buffer, referencePath) {
-    'use strict';
-    return new Buffer(
-        transformText(
-            buffer.toString('utf8'),
-            referencePath),
-        'utf8');
-};
+module.exports = textTransformation(function (text, options) {
+    var sourcePath = (options ? options.sourcePath : undefined) || './unknown';
+    var referencePath = path.dirname(sourcePath);
+    return transformText(text, referencePath);
+});
 
-var transformFile = function (filePath) {
-    'use strict';
-    if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
-        throw 'File not found.';
-    }
-    var referencePath = path.dirname(filePath);
-    var text = fs.readFileSync(filePath, 'utf8');
+module.exports.file = function (sourcePath) {
+    sourcePath = path.resolve(sourcePath);
+    var text = fs.readFileSync(sourcePath, 'utf-8');
+    var referencePath = path.dirname(sourcePath);
     return transformText(text, referencePath);
 };
-
-var processIncludes = function (fileOrReferencePath, text) {
-    'use strict';
-
-    if (fileOrReferencePath) {
-        if (typeof(fileOrReferencePath) === 'string') {
-            if (text) {
-                if (typeof(text) === 'string') {
-                    // processIncludes(referencePath, text) -> returns the processed text
-                    return transformText(text, fileOrReferencePath);
-                } else {
-                    throw 'Invalid second argument';
-                }
-            } else {
-                // processIncludes(filePath) -> returns the processed content of the file
-                return transformFile(fileOrReferencePath);
-            }
-        } else {
-            throw 'Invalid first argument.';
-        }
-    }
-
-    // processIncludes() -> gulp transformation step
-    return through.obj(function (file, enc, cb) {
-        if (file.isNull()) {
-            this.push(file);
-            cb();
-            return;
-        }
-        if (file.isBuffer()) {
-            file.contents = transformBuffer(file.contents, path.dirname(file.path));
-            this.push(file);
-            cb();
-            return;
-        }
-        if (file.isStream()) {
-            throw 'Streams are not supported.';
-        }
-    });
-};
-
-module.exports = processIncludes;
