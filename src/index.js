@@ -23,7 +23,8 @@ var csvTable = function(csvText) {
     var result = '';
     var headline = true;
     var row;
-    
+    var i;
+
     data = csv(csvText);
 
     // cleanup data: ignore empty lines, ignore # comments
@@ -44,14 +45,15 @@ var csvTable = function(csvText) {
     var formatRow = function(rowData, headline) {
         var r = '|';
         var v;
-        for (var i = 0; i < rowData.length; i++) {
+        var i;
+        for (i = 0; i < rowData.length; i++) {
             v = escapeCellValue(rowData[i]);
             r += ' ' + v + ' |';
-        };
+        }
         r += '\n';
         if (headline) {
             r += '|';
-            for (var i = 0; i < rowData.length; i++) {
+            for (i = 0; i < rowData.length; i++) {
                 v = escapeCellValue(rowData[i]);
                 r += (new Array(v.length + 3).join('-')) + '|';
             }
@@ -60,18 +62,18 @@ var csvTable = function(csvText) {
         return r;
     };
 
-    for (var i = 0; i < data.length; i++) {
+    for (i = 0; i < data.length; i++) {
         row = data[i];
         result += formatRow(row, headline);
         headline = false;
-    };
+    }
 
     // append empty row if table is empty
     if (data.length == 1) {
         row = new Array(data[0].length);
-        for (var i = 0; i < row.length; i++) {
+        for (i = 0; i < row.length; i++) {
             row[i] = '';
-        };
+        }
         result += formatRow(row, false);
     }
     return result;
@@ -119,7 +121,7 @@ var transformFile = function (filePath) {
 
 var processIncludes = function (fileOrReferencePath, text) {
     'use strict';
-    
+
     if (fileOrReferencePath) {
         if (typeof(fileOrReferencePath) === 'string') {
             if (text) {
@@ -137,7 +139,7 @@ var processIncludes = function (fileOrReferencePath, text) {
             throw 'Invalid first argument.';
         }
     }
-    
+
     // processIncludes() -> gulp transformation step
     return through.obj(function (file, enc, cb) {
         if (file.isNull()) {
