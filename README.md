@@ -1,8 +1,17 @@
 # MdInclude
 
-Includes referenced files into a Markdown file.
+[![npm package][npm-img]][npm-url]
+[![build status][travis-img]][travis-url]
 
-## Simple Text Include
+> including referenced files into a Markdown file
+
+## Application
+
+_MdInclude_ supports two kinds of includes.
+Simple text includes with additional Markdown content,
+and CSV include with automatic conversion into a Markdown table.
+
+### Simple Text Include
 
 Example files:
 
@@ -33,7 +42,7 @@ The following call includes the referenced files:
 
 ``` js
 var mdinclude = require('mdinclude');
-var result = mdinclude('main.md');
+var result = mdinclude.file('main.md');
 ```
 
 The variable `result` now contains the following string:
@@ -47,11 +56,11 @@ This is the first chapter.
 This is the second chapter.
 ```
 
-## CSV Include
+### CSV Include
 
 Example files:
 
-**main.md**
+**data-table.md**
 
 ```
 # Data Document
@@ -73,7 +82,7 @@ The following call includes the referenced files:
 
 ``` js
 var mdinclude = require('mdinclude');
-var result = mdinclude('main.md');
+var result = mdinclude.file('data-table.md');
 ```
 
 The variable `result` now contains the following string:
@@ -82,6 +91,7 @@ The variable `result` now contains the following string:
 # Data Document
 
 | Column 1 | Column 2 |
+|----------|----------|
 | 1 | 2 |
 | 3 | 4 |
 
@@ -92,42 +102,41 @@ Some additional content.
 
 _MdInclude_ supports three ways of usage.
 
-1. Specify a file to read and process, returning a string 
-   with the processed file content.
-2. Specify a reference path and a string, returning the processed string 
+1. Use the `file(path)` function to read and process a Markdown file directly.
+2. Specify a Markdown text and a source path, returning the processed string
    using the reference path to resolve relative paths in file references.
 3. Give no arguments to retrieve a gulp processing step.
 
-### Usage with a file
+### Usage directly with a file
 
-Give a path to a Markdown file as only argument.
+Use the function `file(path)` and specify a path to the Markdown file.
 
 ``` js
 var mdinclude = require('mdinclude');
-var result = mdinclude('document.md');
+var result = mdinclude('project_a/docs/index.md');
 ```
 
-### Usage with a string
+### Usage with a string and a source path
 
-Give a path as reference for relative paths and a string 
+Give a file path as reference for relative paths and a string
 to process as Markdown text.
 
 ``` js
 var mdinclude = require('mdinclude');
-var documentText = 
+var documentPath = 'project_a/docs/index.md';
+var documentText =
 	'# Introduction\n' +
-	'<!-- #include intro.md -->\n' +
+	'<!-- #include includes/intro.md -->\n' +
 	'# Dataset\n' +
 	'<!-- #csv values.csv -->';
-var referencePath = 'project_a/docs/includes';
-var result = mdinclude(referencePath, documentText);
+var result = mdinclude(documentText, { sourcePath: documentPath });
 ```
 
-### Usage with gulp
+### Usage with Gulp
 
 ``` js
-var gulp = require('gulp');
 var mdinclude = require('mdinclude');
+var gulp = require('gulp');
 
 gulp.task('preprocess-markdown', function() {
 	return gulp.src('docs/*.md')
@@ -139,3 +148,8 @@ gulp.task('preprocess-markdown', function() {
 ## License
 
 _MdInclude_ is published under the MIT license.
+
+[npm-url]: https://www.npmjs.com/package/mdinclude
+[npm-img]: https://img.shields.io/npm/v/mdinclude.svg
+[travis-img]: https://img.shields.io/travis/mastersign/mdinclude/master.svg
+[travis-url]: https://travis-ci.org/mastersign/mdinclude
