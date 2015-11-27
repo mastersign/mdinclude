@@ -3,22 +3,31 @@
   "version": "0.1.1",
   "description": "Includes referenced files into Markdown files.",
   "readme": "README.md",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mastersign/mdinclude.git"
-  },
-  "main": "./src/index.js",
-  "directories": {
-    "test": "tests"
-  },
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "test"
+  ],
   "scripts": {
+    "test": "mocha"
   },
+  "repository": "mastersign/mdinclude",
   "keywords": [
     "markdown",
     "include",
-    "csv"
+    "csv",
+    "gulpplugin"
   ],
-  "author": "Tobias Kiertscher <dev@mastersign.de>",
+  "author": {
+    "name": "Tobias Kiertscher",
+    "email": "dev@mastersign.de",
+    "url": "http://www.mastersign.de"
+  },
+  "bugs": {
+    "url": "https://github.com/mastersign/mdinclude/issues",
+    "email": "dev@mastersign.de"
+  },
+  "homepage": "https://github.com/mastersign/mdinclude#readme",
   "license": "MIT",
   "dependencies": {
     "lodash": "^3.9.3",
