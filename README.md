@@ -3,13 +3,15 @@
 [![npm package][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
 
-> including referenced files into a Markdown file
+> including referenced files into a [Markdown] file
 
 ## Application
 
 _MdInclude_ supports two kinds of includes.
-Simple text includes with additional Markdown content,
-and CSV include with automatic conversion into a Markdown table.
+Simple text includes with additional [Markdown] content,
+and CSV include with automatic conversion into a [Markdown table][mdtables].
+
+It can be used as a function or with [Gulp].
 
 ### Simple Text Include
 
@@ -100,7 +102,8 @@ Some additional content.
 
 ## Interface
 
-_MdInclude_ supports three ways of usage.
+_MdInclude_ makes use of [GulpText _simple_][gulp-text-simple] to provide the API.
+Therefore, it currently supports three ways of usage.
 
 1. Use the `readFileSync(path, [options])` function, to get the processed
    content of a Markdown file.
@@ -109,7 +112,7 @@ _MdInclude_ supports three ways of usage.
    relative paths in file references.
 3. Give no arguments or only an options map, to get a gulp transformation.
 
-### Usage directly with a file
+### Transform a file directly
 
 Use the function `readFileSync(path)` and specify a path to the Markdown file.
 
@@ -118,7 +121,7 @@ var mdinclude = require('mdinclude');
 var result = mdinclude.readFileSync('project_a/docs/index.md');
 ```
 
-### Usage with a string and a source path
+### Transform a string with a source path
 
 Give a file path as reference for relative paths and a string
 to process as Markdown text.
@@ -134,7 +137,7 @@ var documentText =
 var result = mdinclude(documentText, { sourcePath: documentPath });
 ```
 
-### Usage with Gulp
+### Create a Gulp transformation
 
 ``` js
 var mdinclude = require('mdinclude');
@@ -155,3 +158,6 @@ _MdInclude_ is published under the MIT license.
 [npm-img]: https://img.shields.io/npm/v/mdinclude.svg
 [travis-img]: https://img.shields.io/travis/mastersign/mdinclude/master.svg
 [travis-url]: https://travis-ci.org/mastersign/mdinclude
+[Gulp]: http://gulp.js
+[Markdown]: https://daringfireball.net/projects/markdown/
+[mdtables]: https://michelf.ca/projects/php-markdown/extra/#table
