@@ -158,6 +158,6 @@ _MdInclude_ is published under the MIT license.
 [npm-img]: https://img.shields.io/npm/v/mdinclude.svg
 [travis-img]: https://img.shields.io/travis/mastersign/mdinclude/master.svg
 [travis-url]: https://travis-ci.org/mastersign/mdinclude
-[Gulp]: http://gulp.js
+[Gulp]: http://gulpjs.com
 [Markdown]: https://daringfireball.net/projects/markdown/
 [mdtables]: https://michelf.ca/projects/php-markdown/extra/#table
