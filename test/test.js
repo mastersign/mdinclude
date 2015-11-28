@@ -52,7 +52,7 @@ describe('mdinclude', function () {
 		it('should transform the file content', function () {
 			var expected = loadFile(dataFilePath('includes.expected.md'));
 			var sourcePath = dataFilePath('includes.md');
-			var result = mdinclude.file(sourcePath);
+			var result = mdinclude.readFileSync(sourcePath);
 			expected = streamlinePathSeparator(expected);
 			result = streamlinePathSeparator(result);
 			assert.equal(result, expected, 'result does not match expected file content');

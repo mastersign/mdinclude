@@ -42,7 +42,7 @@ The following call includes the referenced files:
 
 ``` js
 var mdinclude = require('mdinclude');
-var result = mdinclude.file('main.md');
+var result = mdinclude.readFileSync('main.md');
 ```
 
 The variable `result` now contains the following string:
@@ -82,7 +82,7 @@ The following call includes the referenced files:
 
 ``` js
 var mdinclude = require('mdinclude');
-var result = mdinclude.file('data-table.md');
+var result = mdinclude.readFileSync('data-table.md');
 ```
 
 The variable `result` now contains the following string:
@@ -102,18 +102,20 @@ Some additional content.
 
 _MdInclude_ supports three ways of usage.
 
-1. Use the `file(path)` function to read and process a Markdown file directly.
-2. Specify a Markdown text and a source path, returning the processed string
-   using the reference path to resolve relative paths in file references.
-3. Give no arguments to retrieve a gulp processing step.
+1. Use the `readFileSync(path, [options])` function, to get the processed
+   content of a Markdown file.
+2. Specify a Markdown string and an option map with the source path,
+   to get the processed string, using the reference path to resolve
+   relative paths in file references.
+3. Give no arguments or only an options map, to get a gulp transformation.
 
 ### Usage directly with a file
 
-Use the function `file(path)` and specify a path to the Markdown file.
+Use the function `readFileSync(path)` and specify a path to the Markdown file.
 
 ``` js
 var mdinclude = require('mdinclude');
-var result = mdinclude('project_a/docs/index.md');
+var result = mdinclude.readFileSync('project_a/docs/index.md');
 ```
 
 ### Usage with a string and a source path

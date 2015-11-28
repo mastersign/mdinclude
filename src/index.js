@@ -109,10 +109,3 @@ module.exports = textTransformation(function (text, options) {
     var referencePath = path.dirname(sourcePath);
     return transformText(text, referencePath);
 });
-
-module.exports.file = function (sourcePath) {
-    sourcePath = path.resolve(sourcePath);
-    var text = fs.readFileSync(sourcePath, 'utf-8');
-    var referencePath = path.dirname(sourcePath);
-    return transformText(text, referencePath);
-};
