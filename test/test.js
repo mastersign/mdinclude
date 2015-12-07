@@ -38,8 +38,9 @@ describe('mdinclude', function () {
 
 		it('should include csv data as Markdown tables', function () {
 			var expected = loadFile(dataFilePath('csv.expected.md'));
-			var source = loadFile(dataFilePath('csv.md'));
-			var result = mdinclude(source, { sourcePath: dataFilePath('csv.md') });
+			var sourcePath = dataFilePath('csv.md');
+			var source = loadFile(sourcePath);
+			var result = mdinclude(source, { sourcePath: sourcePath });
 			expected = streamlinePathSeparator(expected);
 			result = streamlinePathSeparator(result);
 			assert.equal(result, expected, 'result does not match expected file content');
@@ -47,8 +48,9 @@ describe('mdinclude', function () {
 
 		it('should include source code', function () {
 			var expected = loadFile(dataFilePath('code.expected.md'));
-			var source = loadFile(dataFilePath('code.md'));
-			var result = mdinclude(source, { sourcePath: dataFilePath('code.md') });
+			var sourcePath = dataFilePath('code.md');
+			var source = loadFile(sourcePath);
+			var result = mdinclude(source, { sourcePath: sourcePath });
 			expected = streamlinePathSeparator(expected);
 			result = streamlinePathSeparator(result);
 			assert.equal(result, expected, 'result does not match expected file content');
@@ -56,8 +58,9 @@ describe('mdinclude', function () {
 
 		it('should include csv and code into nested Markdown files', function () {
 			var expected = loadFile(dataFilePath('nested-mix.expected.md'));
-			var source = loadFile(dataFilePath('nested-mix.md'));
-			var result = mdinclude(source, { sourcePath: dataFilePath('nested-mix.md') });
+			var sourcePath = dataFilePath('nested-mix.md');
+			var source = loadFile(sourcePath);
+			var result = mdinclude(source, { sourcePath: sourcePath });
 			expected = streamlinePathSeparator(expected);
 			result = streamlinePathSeparator(result);
 			assert.equal(result, expected, 'result does not match expected file content');
