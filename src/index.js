@@ -104,6 +104,19 @@ var transformText = function (text, referencePath, pathCache) {
             return transformText(includeContent, path.dirname(absPath), branchCache);
         });
     text = text.replace(
+        /<!--\s+#cite\s+(.+?)\s+-->/g,
+        function (m, filePath) {
+            var absPath = path.resolve(referencePath, filePath);
+            var text = readFile(absPath, []);
+            if (_.startsWith(text, '<!-- INCLUDE FILE NOT FOUND:')) {
+                return text;
+            } else {
+                return _.map(
+                    text.trim().split(/\r\n|\r|\n/),
+                    function (l) { return '> ' + l; }).join(os.EOL);
+            }
+        });
+    text = text.replace(
         /<!--\s+#csv\s+(.+?)\s+-->/g,
         function (m, filePath) {
             var absPath = path.resolve(referencePath, filePath);
