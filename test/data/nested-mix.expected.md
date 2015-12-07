@@ -23,3 +23,7 @@ function foo(message) {
 // print the message
 foo('bar');
 ```
+
+> Insanity: doing the same thing over and over again and expecting different results.
+> 
+> Albert Einstein
