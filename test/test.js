@@ -36,6 +36,16 @@ describe('mdinclude', function () {
 			assert.equal(result, expected, 'result does not match expected file content');
 		});
 
+		it('should include citation and insert error messages', function () {
+			var expected = loadFile(dataFilePath('citation.expected.md'));
+			var sourcePath = dataFilePath('citation.md');
+			var source = loadFile(sourcePath);
+			var result = mdinclude(source, { sourcePath: sourcePath });
+			expected = streamlinePathSeparator(expected);
+			result = streamlinePathSeparator(result);
+			assert.equal(result, expected, 'result does not match expected file content');
+		});
+
 		it('should include csv data as Markdown tables', function () {
 			var expected = loadFile(dataFilePath('csv.expected.md'));
 			var sourcePath = dataFilePath('csv.md');
