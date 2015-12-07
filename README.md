@@ -129,15 +129,13 @@ var result = mdinclude.readFileSync('doc.md');
 
 The variable `result` now contains the following string:
 
-~~~
-# Example Source Code
-
-```js
-console.log("Hello World");
-\`\`\`
-
-And more content.
-~~~
+    # Example Source Code
+    
+    ```js
+    console.log("Hello World");
+    ```
+    
+    And more content.
 
 ## Interface
 
