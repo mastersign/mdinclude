@@ -45,6 +45,15 @@ describe('mdinclude', function () {
 			assert.equal(result, expected, 'result does not match expected file content');
 		});
 
+		it('should include source code', function () {
+			var expected = loadFile(dataFilePath('code.expected.md'));
+			var source = loadFile(dataFilePath('code.md'));
+			var result = mdinclude(source, { sourcePath: dataFilePath('code.md') });
+			expected = streamlinePathSeparator(expected);
+			result = streamlinePathSeparator(result);
+			assert.equal(result, expected, 'result does not match expected file content');
+		});
+
 	});
 
 	describe('used with a file directly', function () {
