@@ -6,4 +6,4 @@ The following citation was included from another text file:
 
 # Another citation
 
-<!-- #cite include/not existing.txt -->
+<!-- #cite includes/not existing.txt -->
