@@ -1,0 +1,30 @@
+{
+  "name": "mdinclude",
+  "description": "Includes referenced files into Markdown files.",
+  "main": "src/index.js",
+  "authors": [
+    "Tobias Kiertscher <dev@mastersign.de>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "markdown",
+    "include",
+    "csv",
+    "gulpplugin"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "homepage": "https://github.com/mastersign/mdinclude",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "languages": "https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml"
+  }
+}
