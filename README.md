@@ -7,9 +7,10 @@
 
 ## Application
 
-_MdInclude_ supports two kinds of includes.
-Simple text includes with additional [Markdown] content,
-and CSV include with automatic conversion into a [Markdown table][mdtables].
+_MdInclude_ supports three kinds of includes.
+[Simple text includes](#simple-text-include) with additional [Markdown] content,
+[CSV include](#csv-include) with automatic conversion into a [Markdown table][mdtables],
+and [source code include](#source-code-include) with automatic derivation of syntax type from filename extension.
 
 It can be used as a function or with [Gulp].
 
