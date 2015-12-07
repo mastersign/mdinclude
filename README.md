@@ -198,3 +198,4 @@ _MdInclude_ is published under the MIT license.
 [Gulp]: http://gulpjs.com
 [Markdown]: https://daringfireball.net/projects/markdown/
 [mdtables]: https://michelf.ca/projects/php-markdown/extra/#table
+[gulp-text-simple]: https://www.npmjs.com/package/gulp-text-simple
