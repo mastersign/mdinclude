@@ -19,7 +19,7 @@ Example files:
 
 **main.md**
 
-```
+```markdown
 # Introduction
 Hello, this is an include example.
 <!-- #include chapters/one.md -->
@@ -28,28 +28,28 @@ Hello, this is an include example.
 
 **chapters/one.md**
 
-```
+```markdown
 ## Chapter 1
 This is the first chapter.
 ```
 
 **chapters/two.md**
 
-```
+```markdown
 ## Chapter 2
 This is the second chapter.
 ```
 
 The following call includes the referenced files:
 
-``` js
+```js
 var mdinclude = require('mdinclude');
 var result = mdinclude.readFileSync('main.md');
 ```
 
 The variable `result` now contains the following string:
 
-```
+```markdown
 # Introduction
 Hello, this is an include example.
 ## Chapter 1
@@ -64,7 +64,7 @@ Example files:
 
 **data-table.md**
 
-```
+```markdown
 # Data Document
 
 <!-- #csv data/values.csv -->
@@ -74,7 +74,7 @@ Some additional content.
 
 **data/values.csv**
 
-```
+```csv
 "Column 1", "Column 2"
 1, 2
 3, 4
@@ -82,14 +82,14 @@ Some additional content.
 
 The following call includes the referenced files:
 
-``` js
+```js
 var mdinclude = require('mdinclude');
 var result = mdinclude.readFileSync('data-table.md');
 ```
 
 The variable `result` now contains the following string:
 
-```
+```markdown
 # Data Document
 
 | Column 1 | Column 2 |
@@ -99,6 +99,45 @@ The variable `result` now contains the following string:
 
 Some additional content.
 ```
+
+### Source Code Include
+
+Example files:
+
+**doc.md**
+
+```markdown
+# Example Source Code
+
+<!-- #code example.js -->
+
+And more content.
+```
+
+**example.js**
+
+```js
+console.log("Hello World.");
+```
+
+The following call includes the referenced files:
+
+```js
+var mdinclude = require('mdinclude');
+var result = mdinclude.readFileSync('doc.md');
+```
+
+The variable `result` now contains the following string:
+
+~~~markdown
+# Example Source Code
+
+```js
+console.log("Hello World");
+```
+
+And more content.
+~~~
 
 ## Interface
 
@@ -116,7 +155,7 @@ Therefore, it currently supports three ways of usage.
 
 Use the function `readFileSync(path)` and specify a path to the Markdown file.
 
-``` js
+```js
 var mdinclude = require('mdinclude');
 var result = mdinclude.readFileSync('project_a/docs/index.md');
 ```
@@ -126,7 +165,7 @@ var result = mdinclude.readFileSync('project_a/docs/index.md');
 Give a file path as reference for relative paths and a string
 to process as Markdown text.
 
-``` js
+```js
 var mdinclude = require('mdinclude');
 var documentPath = 'project_a/docs/index.md';
 var documentText =
@@ -139,7 +178,7 @@ var result = mdinclude(documentText, { sourcePath: documentPath });
 
 ### Create a Gulp transformation
 
-``` js
+```js
 var mdinclude = require('mdinclude');
 var gulp = require('gulp');
 
