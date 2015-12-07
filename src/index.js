@@ -6,6 +6,7 @@ var path = require('path');
 var fs = require('fs');
 var textTransformation = require('gulp-text-simple');
 var csv = require('./csv');
+var langs = require('../res/languages.json');
 
 var readFile = function (filePath, pathCache) {
     'use strict';
@@ -83,6 +84,14 @@ var csvTable = function(csvText) {
     return result;
 };
 
+var syntaxFromFileName = function (filePath) {
+    var ext = path.extname(filePath).toLowerCase();
+    var syntaxId = _.findKey(langs, function (ldef, id) {
+        return _.some(ldef.extensions, function (lExt) { return ext == lExt; });
+    });
+    return syntaxId ? syntaxId.toLowerCase() : '';
+};
+
 var transformText = function (text, referencePath, pathCache) {
     'use strict';
     pathCache = pathCache || [];
@@ -100,6 +109,28 @@ var transformText = function (text, referencePath, pathCache) {
             var absPath = path.resolve(referencePath, filePath);
             var csvContent = readFile(absPath, []);
             return csvTable(csvContent);
+        });
+    text = text.replace(
+        /<!--\s+#code\((.+?)\)\s+(.+?)\s+-->/g,
+        function (m, syntax, filePath) {
+            var absPath = path.resolve(referencePath, filePath);
+            var sourceCode = readFile(absPath, []);
+            if (_.startsWith(sourceCode, '<!-- INCLUDE FILE NOT FOUND:')) {
+                return sourceCode;
+            } else {
+                return '```' + syntax + os.EOL + sourceCode.trim() + os.EOL + '```';
+            }
+        });
+    text = text.replace(
+        /<!--\s+#code\s+(.+?)\s+-->/g,
+        function (m, filePath) {
+            var absPath = path.resolve(referencePath, filePath);
+            var sourceCode = readFile(absPath, []);
+            if (_.startsWith(sourceCode, '<!-- INCLUDE FILE NOT FOUND:')) {
+                return sourceCode;
+            } else {
+                return '```' + syntaxFromFileName(filePath) + os.EOL + sourceCode.trim() + os.EOL + '```';
+            }
         });
     return text;
 };
