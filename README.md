@@ -7,10 +7,12 @@
 
 ## Application
 
-_MdInclude_ supports three kinds of includes.
-[Simple text includes](#simple-text-include) with additional [Markdown] content,
-[CSV include](#csv-include) with automatic conversion into a [Markdown table][mdtables],
-and [source code include](#source-code-include) with automatic derivation of syntax type from filename extension.
+_MdInclude_ supports four kinds of includes:
+
+* [Simple text includes](#simple-text-include) with additional [Markdown] content
+* [Citation include](#citation-include)
+* [CSV include](#csv-include) with automatic conversion into a [Markdown table][mdtables]
+* [Source code include](#source-code-include) with automatic derivation of syntax type from filename extension.
 
 It can be used as a function or with [Gulp].
 
@@ -57,6 +59,47 @@ Hello, this is an include example.
 This is the first chapter.
 ## Chapter 2
 This is the second chapter.
+```
+
+### Citation Include
+
+Example files:
+
+**doc.md**
+
+```
+# Quotes
+
+<!-- #cite quotes/einstein.txt -->
+
+Some additional content.
+```
+
+**quotes/einstein.txt**
+
+```
+Insanity: doing the same thing over and over again and expecting different results.
+
+Albert Einstein
+```
+
+The following call includes the referenced files:
+
+```js
+var mdinclude = require('mdinclude');
+var result = mdinclude.readFileSync('doc.md');
+```
+
+The variable `result` now contains the following string:
+
+```
+# Quotes
+
+> Insanity: doing the same thing over and over again and expecting different results.
+> 
+> Albert Einstein
+
+Some additional content.
 ```
 
 ### CSV Include
