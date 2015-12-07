@@ -6,7 +6,8 @@
   "main": "src/index.js",
   "files": [
     "src",
-    "test"
+    "test",
+    "res"
   ],
   "scripts": {
     "test": "mocha"
@@ -35,6 +36,9 @@
   },
   "devDependencies": {
     "event-stream": "^3.0.0",
+    "gulp": "^3.9.0",
+    "gulp-rename": "^1.0.0",
+    "js-yaml": "^3.0.0",
     "vinyl": "^1.0.0"
   }
 }
