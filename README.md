@@ -134,7 +134,7 @@ The variable `result` now contains the following string:
 
 ```js
 console.log("Hello World");
-\```
+\`\`\`
 
 And more content.
 ~~~
