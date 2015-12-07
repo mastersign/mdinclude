@@ -175,7 +175,7 @@ The variable `result` now contains the following string:
 
     # Example Source Code
     
-    ```js
+    ```javascript
     console.log("Hello World");
     ```
     
