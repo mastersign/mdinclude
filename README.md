@@ -19,7 +19,7 @@ Example files:
 
 **main.md**
 
-```markdown
+```
 # Introduction
 Hello, this is an include example.
 <!-- #include chapters/one.md -->
@@ -28,14 +28,14 @@ Hello, this is an include example.
 
 **chapters/one.md**
 
-```markdown
+```
 ## Chapter 1
 This is the first chapter.
 ```
 
 **chapters/two.md**
 
-```markdown
+```
 ## Chapter 2
 This is the second chapter.
 ```
@@ -49,7 +49,7 @@ var result = mdinclude.readFileSync('main.md');
 
 The variable `result` now contains the following string:
 
-```markdown
+```
 # Introduction
 Hello, this is an include example.
 ## Chapter 1
@@ -64,7 +64,7 @@ Example files:
 
 **data-table.md**
 
-```markdown
+```
 # Data Document
 
 <!-- #csv data/values.csv -->
@@ -89,7 +89,7 @@ var result = mdinclude.readFileSync('data-table.md');
 
 The variable `result` now contains the following string:
 
-```markdown
+```
 # Data Document
 
 | Column 1 | Column 2 |
@@ -106,7 +106,7 @@ Example files:
 
 **doc.md**
 
-```markdown
+```
 # Example Source Code
 
 <!-- #code example.js -->
@@ -129,12 +129,12 @@ var result = mdinclude.readFileSync('doc.md');
 
 The variable `result` now contains the following string:
 
-~~~markdown
+~~~
 # Example Source Code
 
 ```js
 console.log("Hello World");
-```
+\```
 
 And more content.
 ~~~
