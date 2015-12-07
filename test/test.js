@@ -54,6 +54,15 @@ describe('mdinclude', function () {
 			assert.equal(result, expected, 'result does not match expected file content');
 		});
 
+		it('should include csv and code into nested Markdown files', function () {
+			var expected = loadFile(dataFilePath('nested-mix.expected.md'));
+			var source = loadFile(dataFilePath('nested-mix.md'));
+			var result = mdinclude(source, { sourcePath: dataFilePath('nested-mix.md') });
+			expected = streamlinePathSeparator(expected);
+			result = streamlinePathSeparator(result);
+			assert.equal(result, expected, 'result does not match expected file content');
+		});
+
 	});
 
 	describe('used with a file directly', function () {
