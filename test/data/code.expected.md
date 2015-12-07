@@ -4,7 +4,7 @@
 
 Simple code include.
 
-``` js
+```javascript
 /**
  * @param message
  *     A message to print to the console.
@@ -21,7 +21,7 @@ foo('bar');
 
 Code with explicit syntax.
 
-``` sql
+```SQL
 SELECT * 
 FROM table 
 WHERE id = 42;

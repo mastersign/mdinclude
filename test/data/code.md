@@ -10,7 +10,7 @@ Simple code include.
 
 Code with explicit syntax.
 
-<!-- #code(sql) includes/code.txt -->
+<!-- #code(SQL) includes/code.txt -->
 
 ## Third Include
 
