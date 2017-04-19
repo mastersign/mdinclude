@@ -10,7 +10,7 @@ var langs = require('../res/languages.json');
 
 var readFile = function (filePath, pathCache) {
     'use strict';
-    if (_.contains(pathCache, filePath)) {
+    if (_.includes(pathCache, filePath)) {
         return '<!-- CIRCULAR INCLUDE REFERENCE: ' + filePath + ' -->';
     }
     if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {

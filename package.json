@@ -31,14 +31,14 @@
   "homepage": "https://github.com/mastersign/mdinclude#readme",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^3.0.0",
-    "gulp-text-simple": "^0.3.0"
+    "lodash": "^4.17.0",
+    "gulp-text-simple": "^0.4.0"
   },
   "devDependencies": {
-    "event-stream": "^3.0.0",
+    "event-stream": "^3.3.0",
     "gulp": "^3.9.0",
     "gulp-rename": "^1.0.0",
-    "js-yaml": "^3.0.0",
-    "vinyl": "^1.0.0"
+    "js-yaml": "^3.8.0",
+    "vinyl": "^2.0.0"
   }
 }
