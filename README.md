@@ -184,7 +184,7 @@ The variable `result` now contains the following string:
 
 ## Interface
 
-_MdInclude_ makes use of [GulpText _simple_][gulp-text-simple] v0.3 to provide the API.
+_MdInclude_ makes use of [GulpText _simple_][gulp-text-simple] to provide the API.
 Therefore, it currently supports three ways of usage.
 
 1. Use the `readFileSync(path, [options])` function, to get the processed
