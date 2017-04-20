@@ -1,6 +1,7 @@
 # MdInclude
 
 [![npm package][npm-img]][npm-url]
+[![dependency status][libraries-img]][libraries-url]
 [![build status][travis-img]][travis-url]
 
 > including referenced files into a [Markdown] file
@@ -96,7 +97,7 @@ The variable `result` now contains the following string:
 # Quotes
 
 > Insanity: doing the same thing over and over again and expecting different results.
-> 
+>
 > Albert Einstein
 
 Some additional content.
@@ -174,11 +175,11 @@ var result = mdinclude.readFileSync('doc.md');
 The variable `result` now contains the following string:
 
     # Example Source Code
-    
+
     ```javascript
     console.log("Hello World");
     ```
-    
+
     And more content.
 
 ## Interface
@@ -237,6 +238,8 @@ _MdInclude_ is published under the MIT license.
 
 [npm-url]: https://www.npmjs.com/package/mdinclude
 [npm-img]: https://img.shields.io/npm/v/mdinclude.svg
+[libraries-url]: https://libraries.io/npm/mdinclude
+[libraries-img]: https://img.shields.io/librariesio/github/mastersign/mdinclude.svg
 [travis-img]: https://img.shields.io/travis/mastersign/mdinclude/master.svg
 [travis-url]: https://travis-ci.org/mastersign/mdinclude
 [Gulp]: http://gulpjs.com
