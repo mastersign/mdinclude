@@ -4,6 +4,7 @@ var _ = require('lodash');
 var os = require('os');
 var path = require('path');
 var fs = require('fs');
+var glob = require('glob');
 var textTransformation = require('gulp-text-simple');
 var csv = require('./csv');
 var langs = require('../res/languages.json');
@@ -127,8 +128,17 @@ var includeCode = function (filePath, syntax) {
 };
 
 var include = function (filePath, referencePath, includeFun) {
-    var absPath = path.resolve(referencePath, filePath);
-    return includeFun.apply(null, _.concat([absPath], _.slice(arguments, 3)));
+    if (glob.hasMagic(filePath)) {
+        var filePaths = glob.sync(filePath, { cwd: referencePath });
+        filePaths.sort();
+        return _.reduce(filePaths, function (text, filePath) {
+            var absPath = path.resolve(referencePath, filePath);
+            return (text.length == 0 ? text : text + os.EOL) + includeFun.apply(null, _.concat([absPath], _.slice(arguments, 3)))
+        }, "");
+    } else {
+        var absPath = path.resolve(referencePath, filePath);
+        return includeFun.apply(null, _.concat([absPath], _.slice(arguments, 3)));
+    }
 };
 
 var transformText = function (text, referencePath, pathCache) {
