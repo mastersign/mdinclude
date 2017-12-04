@@ -31,8 +31,9 @@
   "homepage": "https://github.com/mastersign/mdinclude#readme",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.17.0",
-    "gulp-text-simple": "^0.4.0"
+    "glob": "^7.1.2",
+    "gulp-text-simple": "^0.4.0",
+    "lodash": "^4.17.0"
   },
   "devDependencies": {
     "event-stream": "^3.3.0",
