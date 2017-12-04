@@ -15,6 +15,8 @@ _MdInclude_ supports four kinds of includes:
 * [CSV include](#csv-include) with automatic conversion into a [Markdown table][mdtables]
 * [Source code include](#source-code-include) with automatic derivation of syntax type from filename extension.
 
+_MdInclude_ supports [globbing][] for the file path.
+
 It can be used as a function or with [Gulp].
 
 ### Simple Text Include
@@ -33,14 +35,14 @@ Hello, this is an include example.
 **chapters/one.md**
 
 ```
-## Chapter 1
+# Chapter 1
 This is the first chapter.
 ```
 
 **chapters/two.md**
 
 ```
-## Chapter 2
+# Chapter 2
 This is the second chapter.
 ```
 
@@ -56,9 +58,9 @@ The variable `result` now contains the following string:
 ```
 # Introduction
 Hello, this is an include example.
-## Chapter 1
+# Chapter 1
 This is the first chapter.
-## Chapter 2
+# Chapter 2
 This is the second chapter.
 ```
 
@@ -182,6 +184,52 @@ The variable `result` now contains the following string:
 
     And more content.
 
+## Globbing
+
+Globbing works for all kinds of include: Markdown, citation, code, ...
+
+Example files:
+
+**main.md**
+
+```
+# Introduction
+Hello, this is a globbing example.
+<!-- #include chapters/*.md -->
+```
+
+**chapters/one.md**
+
+```
+# Chapter 1
+This is the first chapter.
+```
+
+**chapters/two.md**
+
+```
+# Chapter 2
+This is the second chapter.
+```
+
+The following call includes the referenced files:
+
+```js
+var mdinclude = require('mdinclude');
+var result = mdinclude.readFileSync('main.md');
+```
+
+The variable `result` now contains the following string:
+
+```
+# Introduction
+Hello, this is a globbing example.
+# Chapter 1
+This is the first chapter.
+# Chapter 2
+This is the second chapter.
+```
+
 ## Interface
 
 _MdInclude_ makes use of [GulpText _simple_][gulp-text-simple] to provide the API.
@@ -246,3 +294,4 @@ _MdInclude_ is published under the MIT license.
 [Markdown]: https://daringfireball.net/projects/markdown/
 [mdtables]: https://michelf.ca/projects/php-markdown/extra/#table
 [gulp-text-simple]: https://www.npmjs.com/package/gulp-text-simple
+[globbing]: https://github.com/isaacs/node-glob#glob-primer
