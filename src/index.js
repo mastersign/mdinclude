@@ -92,58 +92,71 @@ var syntaxFromFileName = function (filePath) {
     return syntaxId ? syntaxId.toLowerCase() : '';
 };
 
+var includeMarkdown = function (filePath, referencePath, pathCache) {
+    var branchCache = _.clone(pathCache);
+    var absPath = path.resolve(referencePath, filePath);
+    var includeContent = readFile(absPath, branchCache);
+    return transformText(includeContent, path.dirname(absPath), branchCache);
+};
+
+var includeCitation = function (filePath, referencePath) {
+    var absPath = path.resolve(referencePath, filePath);
+    var text = readFile(absPath, []);
+    if (_.startsWith(text, '<!-- INCLUDE FILE NOT FOUND:')) {
+        return text;
+    } else {
+        return _.map(
+            text.trim().split(/\r\n|\r|\n/),
+            function (l) { return '> ' + l; }).join(os.EOL);
+    }
+};
+
+var includeCsv = function (filePath, referencePath) {
+    var absPath = path.resolve(referencePath, filePath);
+    var csvContent = readFile(absPath, []);
+    return csvTable(csvContent);
+};
+
+var includeCode = function (filePath, syntax, referencePath) {
+    var absPath = path.resolve(referencePath, filePath);
+    var sourceCode = readFile(absPath, []);
+    if (_.startsWith(sourceCode, '<!-- INCLUDE FILE NOT FOUND:')) {
+        return sourceCode;
+    } else {
+        if (syntax == null) {
+            syntax = syntaxFromFileName(filePath);
+        }
+        return '```' + syntax + os.EOL + sourceCode.trim() + os.EOL + '```';
+    }
+};
+
 var transformText = function (text, referencePath, pathCache) {
     'use strict';
     pathCache = pathCache || [];
     text = text.replace(
         /<!--\s+#include\s+(.+?)\s+-->/g,
         function (m, filePath) {
-            var branchCache = _.clone(pathCache);
-            var absPath = path.resolve(referencePath, filePath);
-            var includeContent = readFile(absPath, branchCache);
-            return transformText(includeContent, path.dirname(absPath), branchCache);
+            return includeMarkdown(filePath, referencePath, pathCache);
         });
     text = text.replace(
         /<!--\s+#cite\s+(.+?)\s+-->/g,
         function (m, filePath) {
-            var absPath = path.resolve(referencePath, filePath);
-            var text = readFile(absPath, []);
-            if (_.startsWith(text, '<!-- INCLUDE FILE NOT FOUND:')) {
-                return text;
-            } else {
-                return _.map(
-                    text.trim().split(/\r\n|\r|\n/),
-                    function (l) { return '> ' + l; }).join(os.EOL);
-            }
+            return includeCitation(filePath, referencePath);
         });
     text = text.replace(
         /<!--\s+#csv\s+(.+?)\s+-->/g,
         function (m, filePath) {
-            var absPath = path.resolve(referencePath, filePath);
-            var csvContent = readFile(absPath, []);
-            return csvTable(csvContent);
+            return includeCsv(filePath, referencePath);
         });
     text = text.replace(
         /<!--\s+#code\((.+?)\)\s+(.+?)\s+-->/g,
         function (m, syntax, filePath) {
-            var absPath = path.resolve(referencePath, filePath);
-            var sourceCode = readFile(absPath, []);
-            if (_.startsWith(sourceCode, '<!-- INCLUDE FILE NOT FOUND:')) {
-                return sourceCode;
-            } else {
-                return '```' + syntax + os.EOL + sourceCode.trim() + os.EOL + '```';
-            }
+            return includeCode(filePath, syntax, referencePath);
         });
     text = text.replace(
         /<!--\s+#code\s+(.+?)\s+-->/g,
         function (m, filePath) {
-            var absPath = path.resolve(referencePath, filePath);
-            var sourceCode = readFile(absPath, []);
-            if (_.startsWith(sourceCode, '<!-- INCLUDE FILE NOT FOUND:')) {
-                return sourceCode;
-            } else {
-                return '```' + syntaxFromFileName(filePath) + os.EOL + sourceCode.trim() + os.EOL + '```';
-            }
+            return includeCode(filePath, null, referencePath);
         });
     return text;
 };
