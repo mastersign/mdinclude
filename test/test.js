@@ -4,6 +4,7 @@ var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
 var File = require('vinyl');
+var _ = require('lodash');
 
 var mdinclude = require('../src/index');
 
@@ -22,58 +23,32 @@ var streamlinePathSeparator = function (text) {
 	return text.replace(/\//g, path.sep);
 };
 
+var checkTransformation = function (name) {
+	var expected = loadFile(dataFilePath(name + '.expected.md'));
+	var sourcePath = dataFilePath(name + '.md');
+	var source = loadFile(sourcePath);
+	var result = mdinclude(source, { sourcePath: sourcePath });
+	expected = streamlinePathSeparator(expected);
+	result = streamlinePathSeparator(result);
+	assert.equal(result, expected, 'result does not match expected file content');
+};
+
+var testCases = [
+	{ name: 'includes', description: 'should include references and insert error messages' },
+	{ name: 'citation', description: 'should include citation and insert error messages' },
+	{ name: 'csv', description: 'should include csv data as Markdown tables' },
+	{ name: 'code', description: 'should include source code' },
+	{ name: 'nested-mix', description: 'should include csv and code into nested Markdown files' },
+];
+
 describe('mdinclude', function () {
 
 	describe('used as a function', function () {
 
-		it('should include references and insert error messages', function () {
-			var expected = loadFile(dataFilePath('includes.expected.md'));
-			var sourcePath = dataFilePath('includes.md');
-			var source = loadFile(sourcePath);
-			var result = mdinclude(source, { sourcePath: sourcePath });
-			expected = streamlinePathSeparator(expected);
-			result = streamlinePathSeparator(result);
-			assert.equal(result, expected, 'result does not match expected file content');
-		});
-
-		it('should include citation and insert error messages', function () {
-			var expected = loadFile(dataFilePath('citation.expected.md'));
-			var sourcePath = dataFilePath('citation.md');
-			var source = loadFile(sourcePath);
-			var result = mdinclude(source, { sourcePath: sourcePath });
-			expected = streamlinePathSeparator(expected);
-			result = streamlinePathSeparator(result);
-			assert.equal(result, expected, 'result does not match expected file content');
-		});
-
-		it('should include csv data as Markdown tables', function () {
-			var expected = loadFile(dataFilePath('csv.expected.md'));
-			var sourcePath = dataFilePath('csv.md');
-			var source = loadFile(sourcePath);
-			var result = mdinclude(source, { sourcePath: sourcePath });
-			expected = streamlinePathSeparator(expected);
-			result = streamlinePathSeparator(result);
-			assert.equal(result, expected, 'result does not match expected file content');
-		});
-
-		it('should include source code', function () {
-			var expected = loadFile(dataFilePath('code.expected.md'));
-			var sourcePath = dataFilePath('code.md');
-			var source = loadFile(sourcePath);
-			var result = mdinclude(source, { sourcePath: sourcePath });
-			expected = streamlinePathSeparator(expected);
-			result = streamlinePathSeparator(result);
-			assert.equal(result, expected, 'result does not match expected file content');
-		});
-
-		it('should include csv and code into nested Markdown files', function () {
-			var expected = loadFile(dataFilePath('nested-mix.expected.md'));
-			var sourcePath = dataFilePath('nested-mix.md');
-			var source = loadFile(sourcePath);
-			var result = mdinclude(source, { sourcePath: sourcePath });
-			expected = streamlinePathSeparator(expected);
-			result = streamlinePathSeparator(result);
-			assert.equal(result, expected, 'result does not match expected file content');
+		_.forEach(testCases, function (testCase) {
+			it(testCase.description, function () {
+				checkTransformation(testCase.name);
+			});
 		});
 
 	});
