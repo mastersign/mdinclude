@@ -92,16 +92,14 @@ var syntaxFromFileName = function (filePath) {
     return syntaxId ? syntaxId.toLowerCase() : '';
 };
 
-var includeMarkdown = function (filePath, referencePath, pathCache) {
+var includeMarkdown = function (filePath, pathCache) {
     var branchCache = _.clone(pathCache);
-    var absPath = path.resolve(referencePath, filePath);
-    var includeContent = readFile(absPath, branchCache);
-    return transformText(includeContent, path.dirname(absPath), branchCache);
+    var includeContent = readFile(filePath, branchCache);
+    return transformText(includeContent, path.dirname(filePath), branchCache);
 };
 
-var includeCitation = function (filePath, referencePath) {
-    var absPath = path.resolve(referencePath, filePath);
-    var text = readFile(absPath, []);
+var includeCitation = function (filePath) {
+    var text = readFile(filePath, []);
     if (_.startsWith(text, '<!-- INCLUDE FILE NOT FOUND:')) {
         return text;
     } else {
@@ -111,15 +109,13 @@ var includeCitation = function (filePath, referencePath) {
     }
 };
 
-var includeCsv = function (filePath, referencePath) {
-    var absPath = path.resolve(referencePath, filePath);
-    var csvContent = readFile(absPath, []);
+var includeCsv = function (filePath) {
+    var csvContent = readFile(filePath, []);
     return csvTable(csvContent);
 };
 
-var includeCode = function (filePath, syntax, referencePath) {
-    var absPath = path.resolve(referencePath, filePath);
-    var sourceCode = readFile(absPath, []);
+var includeCode = function (filePath, syntax) {
+    var sourceCode = readFile(filePath, []);
     if (_.startsWith(sourceCode, '<!-- INCLUDE FILE NOT FOUND:')) {
         return sourceCode;
     } else {
@@ -130,33 +126,38 @@ var includeCode = function (filePath, syntax, referencePath) {
     }
 };
 
+var include = function (filePath, referencePath, includeFun) {
+    var absPath = path.resolve(referencePath, filePath);
+    return includeFun.apply(null, _.concat([absPath], _.slice(arguments, 3)));
+};
+
 var transformText = function (text, referencePath, pathCache) {
     'use strict';
     pathCache = pathCache || [];
     text = text.replace(
         /<!--\s+#include\s+(.+?)\s+-->/g,
         function (m, filePath) {
-            return includeMarkdown(filePath, referencePath, pathCache);
+            return include(filePath, referencePath, includeMarkdown, pathCache);
         });
     text = text.replace(
         /<!--\s+#cite\s+(.+?)\s+-->/g,
         function (m, filePath) {
-            return includeCitation(filePath, referencePath);
+            return include(filePath, referencePath, includeCitation);
         });
     text = text.replace(
         /<!--\s+#csv\s+(.+?)\s+-->/g,
         function (m, filePath) {
-            return includeCsv(filePath, referencePath);
+            return include(filePath, referencePath, includeCsv);
         });
     text = text.replace(
         /<!--\s+#code\((.+?)\)\s+(.+?)\s+-->/g,
         function (m, syntax, filePath) {
-            return includeCode(filePath, syntax, referencePath);
+            return include(filePath, referencePath, includeCode, syntax);
         });
     text = text.replace(
         /<!--\s+#code\s+(.+?)\s+-->/g,
         function (m, filePath) {
-            return includeCode(filePath, null, referencePath);
+            return include(filePath, referencePath, includeCode);
         });
     return text;
 };
