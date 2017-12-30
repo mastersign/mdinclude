@@ -13,7 +13,7 @@ gulp.task('update-languages', function (cb) {
 	return gulp.src('bower_components/languages/index.yml')
 		.pipe(yaml2json())
 		.pipe(rename({ basename: 'languages', extname: '.json' }))
-		.pipe(gulp.dest('res/'))
+		.pipe(gulp.dest('res/'));
 });
 
 gulp.task('default', ['update-languages']);
