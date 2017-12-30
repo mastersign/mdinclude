@@ -1,0 +1,50 @@
+image: node:alpine
+
+before_script:
+  - npm install
+
+stages:
+  - test
+  - dev
+
+test:latest:
+  stage: test
+  script:
+    - npm test
+  tags:
+    - docker
+
+test:8:
+  image: node:8-alpine
+  stage: test
+  script:
+    - npm test
+  tags:
+    - docker
+
+test:6:
+  image: node:6-alpine
+  stage: test
+  script:
+    - npm test
+  tags:
+    - docker
+
+test:4:
+  image: node:4-alpine
+  stage: test
+  script:
+    - npm test
+  tags:
+    - docker
+
+update-resources:
+  stage: dev
+  before_script:
+    - npm install --global gulp
+    - npm install
+  script:
+    - gulp
+    - npm test
+  tags:
+    - docker
