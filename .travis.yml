@@ -1,8 +1,9 @@
 language: node_js
 node_js:
- - "stable"
- - "6.10"
- - "4.0"
+ - "node"
+ - "8"
+ - "6"
+ - "4"
 before_script:
- - npm install -g mocha
-script: mocha
+ - npm install
+script: npm test
