@@ -198,14 +198,14 @@ Hello, this is a globbing example.
 <!-- #include chapters/*.md -->
 ```
 
-**chapters/one.md**
+**chapters/01.md**
 
 ```
 # Chapter 1
 This is the first chapter.
 ```
 
-**chapters/two.md**
+**chapters/02.md**
 
 ```
 # Chapter 2
@@ -228,6 +228,25 @@ Hello, this is a globbing example.
 This is the first chapter.
 # Chapter 2
 This is the second chapter.
+```
+
+The included file paths are sorted before including.
+Therefore, the order of the included files in deterministic.
+To control the order the glob path can be prefixed by `sort: asc` or `sort: desc`.
+
+If the include statement looks like the following:
+
+```
+<!-- #include sort: desc chapters/*.md -->
+```
+
+It will result in:
+
+```
+# Chapter 2
+This is the second chapter.
+# Chapter 1
+This is the first chapter.
 ```
 
 ## Interface

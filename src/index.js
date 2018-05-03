@@ -127,17 +127,20 @@ var includeCode = function (filePath, syntax) {
     }
 };
 
-var include = function (filePath, referencePath, includeFun) {
+var include = function (filePath, referencePath, order, includeFun) {
     if (glob.hasMagic(filePath)) {
         var filePaths = glob.sync(filePath, { cwd: referencePath });
         filePaths.sort();
+        if (order == 'desc') {
+            filePaths.reverse();
+        }
         return _.reduce(filePaths, function (text, filePath) {
             var absPath = path.resolve(referencePath, filePath);
             return (text.length == 0 ? text : text + os.EOL) + includeFun.apply(null, _.concat([absPath], _.slice(arguments, 3)))
         }, "");
     } else {
         var absPath = path.resolve(referencePath, filePath);
-        return includeFun.apply(null, _.concat([absPath], _.slice(arguments, 3)));
+        return includeFun.apply(null, _.concat([absPath], _.slice(arguments, 4)));
     }
 };
 
@@ -145,29 +148,29 @@ var transformText = function (text, referencePath, pathCache) {
     'use strict';
     pathCache = pathCache || [];
     text = text.replace(
-        /<!--\s+#include\s+(.+?)\s+-->/g,
-        function (m, filePath) {
-            return include(filePath, referencePath, includeMarkdown, pathCache);
+        /<!--\s+#include\s+(?:sort\:\s*(asc|desc)\s+)?(.+?)\s+-->/g,
+        function (m, order, filePath) {
+            return include(filePath, referencePath, order || 'asc', includeMarkdown, pathCache);
         });
     text = text.replace(
-        /<!--\s+#cite\s+(.+?)\s+-->/g,
-        function (m, filePath) {
-            return include(filePath, referencePath, includeCitation);
+        /<!--\s+#cite\s+(?:sort\:\s*(asc|desc)\s+)?(.+?)\s+-->/g,
+        function (m, order, filePath) {
+            return include(filePath, referencePath, order, includeCitation);
         });
     text = text.replace(
-        /<!--\s+#csv\s+(.+?)\s+-->/g,
-        function (m, filePath) {
-            return include(filePath, referencePath, includeCsv);
+        /<!--\s+#csv\s+(?:sort\:\s*(asc|desc)\s+)?(.+?)\s+-->/g,
+        function (m, order, filePath) {
+            return include(filePath, referencePath, order, includeCsv);
         });
     text = text.replace(
-        /<!--\s+#code\((.+?)\)\s+(.+?)\s+-->/g,
-        function (m, syntax, filePath) {
-            return include(filePath, referencePath, includeCode, syntax);
+        /<!--\s+#code\((.+?)\)\s+(?:sort\:\s*(asc|desc)\s+)?(.+?)\s+-->/g,
+        function (m, syntax, order, filePath) {
+            return include(filePath, referencePath, order, includeCode, syntax);
         });
     text = text.replace(
-        /<!--\s+#code\s+(.+?)\s+-->/g,
-        function (m, filePath) {
-            return include(filePath, referencePath, includeCode);
+        /<!--\s+#code\s+(?:sort\:\s*(asc|desc)\s+)?(.+?)\s+-->/g,
+        function (m, order, filePath) {
+            return include(filePath, referencePath, order, includeCode);
         });
     return text;
 };

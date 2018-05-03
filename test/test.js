@@ -39,7 +39,8 @@ var testCases = [
 	{ name: 'csv', description: 'should include csv data as Markdown tables' },
 	{ name: 'code', description: 'should include source code' },
 	{ name: 'nested-mix', description: 'should include csv and code into nested Markdown files' },
-	{ name: 'includes-glob', description: 'should include globbed Markdown files' }
+	{ name: 'includes-glob', description: 'should include globbed Markdown files' },
+	{ name: 'includes-glob-desc', description: 'should include globbed Markdown files in reverse order' }
 ];
 
 describe('mdinclude', function () {
