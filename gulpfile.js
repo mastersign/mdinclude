@@ -16,4 +16,4 @@ gulp.task('update-languages', function (cb) {
 		.pipe(gulp.dest('res/'));
 });
 
-gulp.task('default', ['update-languages']);
+gulp.task('default', gulp.series('update-languages'));
