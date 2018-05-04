@@ -41,8 +41,9 @@ test:4:
 update-resources:
   stage: dev
   before_script:
-    - yarn global add gulp@^4.0.0
+    - yarn global add gulp@^4.0.0 bower
     - yarn install
+    - bower install
   script:
     - gulp
     - yarn test
