@@ -6,7 +6,7 @@ var yaml = require('js-yaml');
 var textTransformation = require('gulp-text-simple');
 
 var yaml2json = textTransformation(function (yamlText) {
-	return yaml.safeLoad(yamlText);
+	return yaml.safeLoad(yamlText, { json: true });
 });
 
 gulp.task('update-languages', function (cb) {
