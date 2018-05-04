@@ -1,7 +1,7 @@
 image: node:alpine
 
 before_script:
-  - npm install
+  - yarn install
 
 stages:
   - test
@@ -10,7 +10,7 @@ stages:
 test:latest:
   stage: test
   script:
-    - npm test
+    - yarn test
   tags:
     - docker
 
@@ -18,7 +18,7 @@ test:8:
   image: node:8-alpine
   stage: test
   script:
-    - npm test
+    - yarn test
   tags:
     - docker
 
@@ -26,7 +26,7 @@ test:6:
   image: node:6-alpine
   stage: test
   script:
-    - npm test
+    - yarn test
   tags:
     - docker
 
@@ -34,17 +34,17 @@ test:4:
   image: node:4-alpine
   stage: test
   script:
-    - npm test
+    - yarn test
   tags:
     - docker
 
 update-resources:
   stage: dev
   before_script:
-    - npm install --global gulp
-    - npm install
+    - yarn global add gulp@^4.0.0
+    - yarn install
   script:
     - gulp
-    - npm test
+    - yarn test
   tags:
     - docker
