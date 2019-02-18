@@ -75,7 +75,7 @@ describe('mdinclude', function () {
 			var sourcePath = dataFilePath('includes.md');
 			var source = loadFile(sourcePath);
 			var fakeFile = new File({
-				contents: new Buffer(source, 'utf-8'),
+				contents: Buffer.from(source, 'utf-8'),
 				path: sourcePath
 			});
 			expected = streamlinePathSeparator(expected);
