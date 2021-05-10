@@ -14,24 +14,24 @@ test:latest:
   tags:
     - docker
 
-test:8:
-  image: node:8-alpine
+test:14:
+  image: node:14-alpine
   stage: test
   script:
     - yarn test
   tags:
     - docker
 
-test:6:
-  image: node:6-alpine
+test:12:
+  image: node:12-alpine
   stage: test
   script:
     - yarn test
   tags:
     - docker
 
-test:4:
-  image: node:4-alpine
+test:10:
+  image: node:10-alpine
   stage: test
   script:
     - yarn test
